@@ -1,6 +1,6 @@
 // https://aka.ms/devcontainer.json
 {
-    "name": "Pronto Fuel",
+    "name": "Myndz",
     "dockerComposeFile": [
         "../docker-compose.yml",
         "../docker-compose.override.yml",

@@ -15,6 +15,12 @@ use Inertia\Inertia;
 |
 */
 
+Route::get('/cursos', function () {
+    return Inertia::render('CourseIndex', [
+        'title' => 'Cursos'
+    ]);
+})->name('course.index');
+
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
