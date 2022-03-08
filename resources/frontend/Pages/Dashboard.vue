@@ -5,6 +5,12 @@
     {{ title }}
   </h1>
 
+  <p>
+    <Link :href="route('course.index')">
+      Cursos
+    </Link>
+  </p>
+
   <p class="text-body-1">
     Try out a server driven toast notification handled with Inertia:
   </p>
