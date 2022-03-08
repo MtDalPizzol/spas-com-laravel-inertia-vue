@@ -85,6 +85,15 @@
             </template>
             Dashboard
           </NavLink>
+          <NavLink
+            :href="route('course.index')"
+            :active="route().current('course.index')"
+          >
+            <template #icon="icon">
+              <i-fe-book v-bind="icon" />
+            </template>
+            Cursos
+          </NavLink>
         </q-list>
         <q-item />
       </q-scroll-area>
