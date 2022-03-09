@@ -21,6 +21,12 @@ Route::get('/cursos', function () {
     ]);
 })->name('course.index');
 
+Route::get('/cursos/criar', function () {
+    return Inertia::render('CourseForm', [
+        'title' => 'Novo curso'
+    ]);
+})->name('course.create');
+
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),

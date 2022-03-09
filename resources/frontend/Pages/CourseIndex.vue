@@ -1,9 +1,14 @@
 <template>
   <Head :title="title" />
   <Authenticated>
-    <h1 class="tw-text-5xl">
-      {{ title }}
-    </h1>
+    <Link :href="route('course.create')">
+      <q-btn
+        color="primary"
+      >
+        <i-mdi-plus class="tw-mr-3" />
+        <span>Novo curso</span>
+      </q-btn>
+    </Link>
   </Authenticated>
 </template>
 
