@@ -1,7 +1,10 @@
 <template layout="Authenticated">
   <Head :title="title" />
 
-  <div class="row q-col-gutter-md">
+  <form
+    class="row q-col-gutter-md"
+    @submit.prevent="form.post(route('course.store'))"
+  >
     <div class="col-12 col-sm-8 tw-flex-col tw-space-y-4">
       <q-input
         v-model="form.title"
@@ -39,7 +42,16 @@
         />
       </div>
     </div>
-  </div>
+    <div>
+      <q-btn
+        color="primary"
+        type="submit"
+      >
+        <i-mdi-content-save class="tw-mr-3" />
+        <div>Salvar</div>
+      </q-btn>
+    </div>
+  </form>
 </template>
 
 <script setup>
@@ -47,7 +59,7 @@ defineProps({
   title: String
 })
 
-const form = reactive({
+const form = useForm({
   title: null,
   description: '',
   cover: null
