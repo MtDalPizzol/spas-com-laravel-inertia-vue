@@ -10,12 +10,28 @@
         v-model="form.title"
         outlined
         label="Título"
+        :error="!!errors.title"
+        :error-message="errors.title"
       />
 
-      <q-editor
-        v-model="form.description"
-        placeholder="Descrição"
-      />
+      <div>
+        <div
+          :class="{
+            'tw-border-2 tw-border-red-600 tw-rounded': !!errors.description
+          }"
+        >
+          <q-editor
+            v-model="form.description"
+            placeholder="Descrição"
+          />
+        </div>
+        <div
+          v-if="!!errors.description"
+          class="tw-text-red-600 tw-text-xs tw-pl-3 tw-pt-1"
+        >
+          {{ errors.description }}
+        </div>
+      </div>
     </div>
     <div class="col-12 col-sm-4 tw-flex-col tw-space-y-4">
       <q-file
@@ -23,6 +39,8 @@
         outlined
         clearable
         label="Capa"
+        :error="!!errors.cover"
+        :error-message="errors.cover"
         @update:model-value="preview"
       >
         <template #prepend>
@@ -56,7 +74,8 @@
 
 <script setup>
 defineProps({
-  title: String
+  title: String,
+  errors: Object
 })
 
 const form = useForm({

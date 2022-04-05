@@ -22,9 +22,13 @@ Route::get('/cursos', function () {
 })->name('course.index');
 
 Route::post('/cursos', function () {
-  $data = request()->all();
+  request()->validate([
+    'title' => ['required', 'string', 'min:3', 'max:255'],
+    'description' => ['required', 'string', 'min:3'],
+    'cover' => ['nullable', 'file', 'image', 'max:2048']
+  ]);
 
-  dd($data);
+  dd('Validação passou');
 })->name('course.store');
 
 Route::get('/cursos/criar', function () {

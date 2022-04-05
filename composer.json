@@ -29,6 +29,7 @@
     "require-dev": {
         "fakerphp/faker": "^1.19",
         "laravel/sail": "^1.13",
+        "lucascudo/laravel-pt-br-localization": "^1.1",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.1",
         "phpunit/phpunit": "^9.5.10",
