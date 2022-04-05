@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Course;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -22,13 +23,17 @@ Route::get('/cursos', function () {
 })->name('course.index');
 
 Route::post('/cursos', function () {
-  request()->validate([
+  $validated = request()->validate([
     'title' => ['required', 'string', 'min:3', 'max:255'],
     'description' => ['required', 'string', 'min:3'],
     'cover' => ['nullable', 'file', 'image', 'max:2048']
   ]);
 
-  dd('Validação passou');
+  Course::create($validated);
+
+  // Upload da capa
+
+  dd('Curso adicionado');
 })->name('course.store');
 
 Route::get('/cursos/criar', function () {
