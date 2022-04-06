@@ -17,54 +17,57 @@ use Inertia\Inertia;
 */
 
 Route::get('/cursos', function () {
-    return Inertia::render('CourseIndex', [
-        'title' => 'Cursos'
-    ]);
+  return Inertia::render('CourseIndex', [
+    'title' => 'Cursos',
+    'courses' => Course::all()
+  ]);
 })->name('course.index');
 
 Route::post('/cursos', function () {
-    $validated = request()->validate([
-        'title' => ['required', 'string', 'min:3', 'max:255'],
-        'description' => ['required', 'string', 'min:3'],
-        'cover' => ['nullable', 'file', 'image', 'max:2048']
-    ]);
+  $validated = request()->validate([
+    'title' => ['required', 'string', 'min:3', 'max:255'],
+    'description' => ['required', 'string', 'min:3'],
+    'cover' => ['nullable', 'file', 'image', 'max:2048']
+  ]);
 
-    if (!empty($validated['cover'])) {
-        $validated['cover'] = $validated['cover']->store('courses', 'public');
-    }
+  if (!empty($validated['cover'])) {
+    $validated['cover'] = $validated['cover']->store('courses', 'public');
+  }
 
-    Course::create($validated);
+  Course::create($validated);
 
-    dd('Curso adicionado');
+  return redirect()
+    ->route('course.index')
+    ->toast('Curso adicionado');
 })->name('course.store');
 
 Route::get('/cursos/criar', function () {
-    return Inertia::render('CourseForm', [
-        'title' => 'Novo curso'
-    ]);
+  return Inertia::render('CourseForm', [
+    'title' => 'Novo curso'
+  ]);
 })->name('course.create');
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+  return Inertia::render('Welcome', [
+    'canLogin' => Route::has('login'),
+    'canRegister' => Route::has('register'),
+    'laravelVersion' => Application::VERSION,
+    'phpVersion' => PHP_VERSION,
+  ]);
 });
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard', [
-        'title' => 'Dashboard'
-    ]);
+  return Inertia::render('Dashboard', [
+    'title' => 'Dashboard'
+  ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/account', function () {
-    return Inertia::render('Account', [
-        'title' => 'My Account'
-    ]);
+  return Inertia::render('Account', [
+    'title' => 'My Account'
+  ]);
 })->middleware(['auth', 'verified'])->name('account.index');
 
 Route::post('/notify', function () {
-    return back()->toast('This notification comes from the server side =)');
+  return back()->toast('This notification comes from the server side =)');
 });
