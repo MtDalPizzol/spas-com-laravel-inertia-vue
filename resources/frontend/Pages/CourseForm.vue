@@ -81,7 +81,7 @@ const props = defineProps({
 
 const form = useForm(props.course)
 
-const coverUrl = ref(null)
+const coverUrl = ref(form.cover)
 
 const preview = (file) => {
   if (!form.cover) {
