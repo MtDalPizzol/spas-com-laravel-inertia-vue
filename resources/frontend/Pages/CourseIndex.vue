@@ -29,10 +29,23 @@
         />
       </div>
       <div class="tw-w-4/12">
-        <strong>{{ course.title }}</strong>
+        <Link :href="course.url.edit">
+          <strong>{{ course.title }}</strong>
+        </Link>
       </div>
-      <div class="tw-w-6/12">
+      <div class="tw-w-5/12">
         {{ course.description }}
+      </div>
+      <div class="tw-w-1/12 tw-flex tw-justify-end">
+        <Link :href="course.url.edit">
+          <q-btn
+            flat
+            round
+            color="primary"
+          >
+            <i-mdi-pencil />
+          </q-btn>
+        </Link>
       </div>
     </li>
   </ul>

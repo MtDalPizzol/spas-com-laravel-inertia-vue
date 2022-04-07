@@ -16,6 +16,18 @@ use Inertia\Inertia;
 |
 */
 
+Route::get('/cursos/{course}/editar', function (Course $course) {
+  return Inertia::render('CourseForm', [
+    'title' => 'Editando curso #' . $course->id
+  ]);
+})->name('course.edit');
+
+Route::get('/cursos/criar', function () {
+  return Inertia::render('CourseForm', [
+    'title' => 'Novo curso'
+  ]);
+})->name('course.create');
+
 Route::get('/cursos', function () {
   return Inertia::render('CourseIndex', [
     'title' => 'Cursos',
@@ -40,12 +52,6 @@ Route::post('/cursos', function () {
     ->route('course.index')
     ->toast('Curso adicionado');
 })->name('course.store');
-
-Route::get('/cursos/criar', function () {
-  return Inertia::render('CourseForm', [
-    'title' => 'Novo curso'
-  ]);
-})->name('course.create');
 
 Route::get('/', function () {
   return Inertia::render('Welcome', [

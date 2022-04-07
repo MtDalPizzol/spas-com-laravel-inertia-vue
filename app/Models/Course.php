@@ -19,12 +19,25 @@ class Course extends Model
     'cover'
   ];
 
+  protected $appends = ['url'];
+
   protected function cover(): Attribute
   {
     return Attribute::make(
       get: fn ($value) => ($value)
         ? Storage::disk('public')->url($value)
         : null
+    );
+  }
+
+  protected function url(): Attribute
+  {
+    return Attribute::make(
+      get: fn () => [
+        'edit' => route('course.edit', [
+          'course' => $this->id
+        ])
+      ]
     );
   }
 }
