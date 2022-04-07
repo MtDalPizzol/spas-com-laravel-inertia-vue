@@ -19,7 +19,8 @@ class CourseController extends Controller
   public function create()
   {
     return Inertia::render('CourseForm', [
-      'title' => 'Novo curso'
+      'title' => 'Novo curso',
+      'course' => new Course
     ]);
   }
 
@@ -45,7 +46,8 @@ class CourseController extends Controller
   public function edit(Course $course)
   {
     return Inertia::render('CourseForm', [
-      'title' => 'Editando curso #' . $course->id
+      'title' => 'Editando curso #' . $course->id,
+      'course' => $course
     ]);
   }
 }

@@ -73,16 +73,13 @@
 </template>
 
 <script setup>
-defineProps({
+const props = defineProps({
   title: String,
+  course: Object,
   errors: Object
 })
 
-const form = useForm({
-  title: null,
-  description: '',
-  cover: null
-})
+const form = useForm(props.course)
 
 const coverUrl = ref(null)
 

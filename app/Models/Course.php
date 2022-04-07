@@ -19,6 +19,12 @@ class Course extends Model
     'cover'
   ];
 
+  protected $attributes = [
+    'title' => null,
+    'description' => '',
+    'cover' => null
+  ];
+
   protected $appends = ['url'];
 
   protected function cover(): Attribute
@@ -34,9 +40,9 @@ class Course extends Model
   {
     return Attribute::make(
       get: fn () => [
-        'edit' => route('course.edit', [
-          'course' => $this->id
-        ])
+        'edit' => ($this->id)
+          ? route('course.edit', ['course' => $this->id])
+          : null
       ]
     );
   }
