@@ -25,13 +25,13 @@ class Course extends Model
     'cover' => null
   ];
 
-  protected $appends = ['url'];
+  protected $appends = ['url', 'cover_url'];
 
-  protected function cover(): Attribute
+  protected function coverUrl(): Attribute
   {
     return Attribute::make(
-      get: fn ($value) => ($value)
-        ? Storage::disk('public')->url($value)
+      get: fn () => ($this->cover)
+        ? Storage::disk('public')->url($this->cover)
         : null
     );
   }

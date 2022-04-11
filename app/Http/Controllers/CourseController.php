@@ -19,6 +19,8 @@ class CourseController extends Controller
   public function create()
   {
     return Inertia::render('CourseForm', [
+      'action' => route('course.store'),
+      'method' => 'post',
       'title' => 'Novo curso',
       'course' => new Course
     ]);
@@ -29,7 +31,7 @@ class CourseController extends Controller
     $validated = request()->validate([
       'title' => ['required', 'string', 'min:3', 'max:255'],
       'description' => ['required', 'string', 'min:3'],
-      'cover' => ['nullable', 'file', 'image', 'max:2048']
+      'cover_file' => ['nullable', 'file', 'image', 'max:2048']
     ]);
 
     if (!empty($validated['cover'])) {
@@ -46,8 +48,29 @@ class CourseController extends Controller
   public function edit(Course $course)
   {
     return Inertia::render('CourseForm', [
+      'action' => route('course.update', ['course' => $course->id]),
+      'method' => 'put',
       'title' => 'Editando curso #' . $course->id,
       'course' => $course
     ]);
+  }
+
+  public function update(Course $course)
+  {
+    $validated = request()->validate([
+      'title' => ['required', 'string', 'min:3', 'max:255'],
+      'description' => ['required', 'string', 'min:3'],
+      'cover_file' => ['nullable', 'file', 'image', 'max:2048']
+    ]);
+
+    if (!empty($validated['cover'])) {
+      $validated['cover'] = $validated['cover']->store('courses', 'public');
+    }
+
+    $course->update($validated);
+
+    return redirect()
+      ->route('course.index')
+      ->toast('Curso atualizado');
   }
 }

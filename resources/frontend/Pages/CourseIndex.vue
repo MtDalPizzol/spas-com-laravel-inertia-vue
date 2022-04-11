@@ -18,8 +18,8 @@
     >
       <div class="tw-w-2/12">
         <img
-          v-if="course.cover"
-          :src="course.cover"
+          v-if="course.cover_url"
+          :src="course.cover_url"
           :alt="course.title"
           class="tw-max-w-[150px]"
         >

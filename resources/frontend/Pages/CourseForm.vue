@@ -3,7 +3,7 @@
 
   <form
     class="row q-col-gutter-md"
-    @submit.prevent="form.post(route('course.store'))"
+    @submit.prevent="submit"
   >
     <div class="col-12 col-sm-8 tw-flex-col tw-space-y-4">
       <q-input
@@ -35,7 +35,7 @@
     </div>
     <div class="col-12 col-sm-4 tw-flex-col tw-space-y-4">
       <q-file
-        v-model="form.cover"
+        v-model="coverFile"
         outlined
         clearable
         label="Capa"
@@ -50,8 +50,8 @@
 
       <div class="tw-border tw-p-2 tw-rounded tw-w-full tw-h-max tw-flex tw-justify-center tw-items-center">
         <img
-          v-if="coverUrl"
-          :src="coverUrl"
+          v-if="form.cover_url"
+          :src="form.cover_url"
           alt="Capa do curso"
         >
         <i-fa-solid-camera-retro
@@ -74,6 +74,8 @@
 
 <script setup>
 const props = defineProps({
+  action: String,
+  method: String,
   title: String,
   course: Object,
   errors: Object
@@ -81,14 +83,21 @@ const props = defineProps({
 
 const form = useForm(props.course)
 
-const coverUrl = ref(form.cover)
+const coverFile = ref(null)
 
 const preview = (file) => {
-  if (!form.cover) {
-    coverUrl.value = null
+  if (!coverFile.value) {
+    form.cover_url = null
     return
   }
 
-  coverUrl.value = URL.createObjectURL(form.cover)
+  form.cover_url = URL.createObjectURL(coverFile.value)
+}
+
+const submit = () => {
+  form.transform((data) => ({
+    ...data,
+    cover_file: coverFile.value
+  }))[props.method](props.action)
 }
 </script>

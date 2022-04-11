@@ -20,6 +20,8 @@ use Inertia\Inertia;
 Route::controller(CourseController::class)->group(function () {
   Route::get('/cursos/{course}/editar', 'edit')->name('course.edit');
 
+  Route::put('/cursos/{course}', 'update')->name('course.update');
+
   Route::get('/cursos/criar', 'create')->name('course.create');
 
   Route::get('/cursos', 'index')->name('course.index');
