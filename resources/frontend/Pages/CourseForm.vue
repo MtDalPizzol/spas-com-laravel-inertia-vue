@@ -59,6 +59,18 @@
           class="tw-text-6xl tw-text-gray-200"
         />
       </div>
+
+      <div class="tw-flex tw-justify-end">
+        <q-btn
+          v-if="form.cover_url"
+          flat
+          size="sm"
+          @click="resetCover"
+        >
+          <i-mdi-delete class="tw-mr-3" />
+          <span>Remover capa</span>
+        </q-btn>
+      </div>
     </div>
     <div>
       <q-btn
@@ -85,19 +97,38 @@ const form = useForm(props.course)
 
 const coverFile = ref(null)
 
+const currentCover = {
+  cover: form.cover,
+  cover_url: form.cover_url
+}
+
 const preview = (file) => {
   if (!coverFile.value) {
-    form.cover_url = null
+    form.cover_url = (currentCover.cover_url)
+      ? currentCover.cover_url
+      : null
+
+    form.cover = (currentCover.cover)
+      ? currentCover.cover
+      : null
+
     return
   }
 
   form.cover_url = URL.createObjectURL(coverFile.value)
 }
 
+const resetCover = () => {
+  coverFile.value = null
+  form.cover_url = null
+  form.cover = null
+}
+
 const submit = () => {
   form.transform((data) => ({
     ...data,
-    cover_file: coverFile.value
-  }))[props.method](props.action)
+    cover_file: coverFile.value,
+    _method: props.method
+  })).post(props.action)
 }
 </script>

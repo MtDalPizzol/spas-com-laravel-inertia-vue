@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class CourseController extends Controller
@@ -57,14 +58,24 @@ class CourseController extends Controller
 
   public function update(Course $course)
   {
+    // dd(request()->all());
+
     $validated = request()->validate([
       'title' => ['required', 'string', 'min:3', 'max:255'],
       'description' => ['required', 'string', 'min:3'],
+      'cover' => ['nullable', 'string'],
       'cover_file' => ['nullable', 'file', 'image', 'max:2048']
     ]);
 
-    if (!empty($validated['cover'])) {
-      $validated['cover'] = $validated['cover']->store('courses', 'public');
+    if ((!empty($validated['cover_file'])
+        || (empty($validated['cover_file']) && empty($validated['cover'])))
+      && (!empty($course->cover) && Storage::disk('public')->exists($course->cover))
+    ) {
+      Storage::disk('public')->delete($course->cover);
+    }
+
+    if (!empty($validated['cover_file'])) {
+      $validated['cover'] = $validated['cover_file']->store('courses', 'public');
     }
 
     $course->update($validated);
