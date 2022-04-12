@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
 class Course extends Model
@@ -15,8 +16,7 @@ class Course extends Model
 
   protected $fillable = [
     'title',
-    'description',
-    'cover'
+    'description'
   ];
 
   protected $attributes = [
@@ -45,5 +45,33 @@ class Course extends Model
           : null
       ]
     );
+  }
+
+  public function hasCover()
+  {
+    return (!empty($this->cover) && Storage::disk('public')->exists($this->cover));
+  }
+
+  public function mustRemoveCover($uploadedFile, $currentPath)
+  {
+    return (!empty($uploadedFile)
+      || (empty($uploadedFile) && empty($currentPath)))
+      && $this->hasCover();
+  }
+
+  public function removeCover()
+  {
+    Storage::disk('public')->delete($this->cover);
+
+    $this->cover = null;
+
+    return $this->save();
+  }
+
+  public function addCover(UploadedFile $file)
+  {
+    $this->cover = $file->store('courses', 'public');
+
+    return $this->save();
   }
 }

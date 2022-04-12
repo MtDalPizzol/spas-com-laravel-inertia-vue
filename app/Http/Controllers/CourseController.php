@@ -35,11 +35,11 @@ class CourseController extends Controller
       'cover_file' => ['nullable', 'file', 'image', 'max:2048']
     ]);
 
-    if (!empty($validated['cover'])) {
-      $validated['cover'] = $validated['cover']->store('courses', 'public');
-    }
+    $course = Course::create($validated);
 
-    Course::create($validated);
+    if (!empty($validated['cover_file'])) {
+      $course->addCover($validated['cover_file']);
+    }
 
     return redirect()
       ->route('course.index')
@@ -58,8 +58,6 @@ class CourseController extends Controller
 
   public function update(Course $course)
   {
-    // dd(request()->all());
-
     $validated = request()->validate([
       'title' => ['required', 'string', 'min:3', 'max:255'],
       'description' => ['required', 'string', 'min:3'],
@@ -67,18 +65,15 @@ class CourseController extends Controller
       'cover_file' => ['nullable', 'file', 'image', 'max:2048']
     ]);
 
-    if ((!empty($validated['cover_file'])
-        || (empty($validated['cover_file']) && empty($validated['cover'])))
-      && (!empty($course->cover) && Storage::disk('public')->exists($course->cover))
-    ) {
-      Storage::disk('public')->delete($course->cover);
+    $course->update($validated);
+
+    if ($course->mustRemoveCover($validated['cover_file'], $validated['cover'])) {
+      $course->removeCover();
     }
 
     if (!empty($validated['cover_file'])) {
-      $validated['cover'] = $validated['cover_file']->store('courses', 'public');
+      $course->addCover($validated['cover_file']);
     }
-
-    $course->update($validated);
 
     return redirect()
       ->route('course.index')
