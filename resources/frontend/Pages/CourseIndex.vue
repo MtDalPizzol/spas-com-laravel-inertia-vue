@@ -46,6 +46,14 @@
             <i-mdi-pencil />
           </q-btn>
         </Link>
+        <q-btn
+          flat
+          round
+          color="negative"
+          @click="deleteCourse(course)"
+        >
+          <i-mdi-trash />
+        </q-btn>
       </div>
     </li>
   </ul>
@@ -56,4 +64,12 @@ defineProps({
   title: String,
   courses: Array
 })
+
+const deleteCourse = (course) => {
+  if (!window.confirm('Deseja realmente excluir este curso?')) {
+    return
+  }
+
+  Inertia.delete(window.route('course.destroy', { course: course.id }))
+}
 </script>

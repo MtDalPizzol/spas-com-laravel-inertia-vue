@@ -59,9 +59,14 @@ class Course extends Model
       && $this->hasCover();
   }
 
+  public function deleteCoverFile()
+  {
+    return Storage::disk('public')->delete($this->cover);
+  }
+
   public function removeCover()
   {
-    Storage::disk('public')->delete($this->cover);
+    $this->deleteCoverFile();
 
     $this->cover = null;
 

@@ -79,4 +79,13 @@ class CourseController extends Controller
       ->route('course.index')
       ->toast('Curso atualizado');
   }
+
+  public function destroy(Course $course)
+  {
+    $course->deleteCoverFile();
+
+    $course->delete();
+
+    return back();
+  }
 }
