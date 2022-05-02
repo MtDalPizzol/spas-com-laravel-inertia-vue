@@ -17,20 +17,7 @@ use Inertia\Inertia;
 |
 */
 
-Route::controller(CourseController::class)
-    ->group(function () {
-        Route::get('/cursos/{course}/editar', 'edit')->name('course.edit');
-
-        Route::put('/cursos/{course}', 'update')->name('course.update');
-
-        Route::delete('/cursos/{course}', 'destroy')->name('course.destroy');
-
-        Route::get('/cursos/criar', 'create')->name('course.create');
-
-        Route::get('/cursos', 'index')->name('course.index');
-
-        Route::post('/cursos', 'store')->name('course.store');
-    });
+Route::resource('cursos', CourseController::class)->names('course')->parameters(['cursos' => 'course']);
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard', [
