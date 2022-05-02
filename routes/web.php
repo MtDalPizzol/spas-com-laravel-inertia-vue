@@ -17,42 +17,33 @@ use Inertia\Inertia;
 |
 */
 
-Route::controller(CourseController::class)->group(function () {
-  Route::get('/cursos/{course}/editar', 'edit')->name('course.edit');
+Route::controller(CourseController::class)
+    ->group(function () {
+        Route::get('/cursos/{course}/editar', 'edit')->name('course.edit');
 
-  Route::put('/cursos/{course}', 'update')->name('course.update');
+        Route::put('/cursos/{course}', 'update')->name('course.update');
 
-  Route::delete('/cursos/{course}', 'destroy')->name('course.destroy');
+        Route::delete('/cursos/{course}', 'destroy')->name('course.destroy');
 
-  Route::get('/cursos/criar', 'create')->name('course.create');
+        Route::get('/cursos/criar', 'create')->name('course.create');
 
-  Route::get('/cursos', 'index')->name('course.index');
+        Route::get('/cursos', 'index')->name('course.index');
 
-  Route::post('/cursos', 'store')->name('course.store');
-});
-
-
-Route::get('/', function () {
-  return Inertia::render('Welcome', [
-    'canLogin' => Route::has('login'),
-    'canRegister' => Route::has('register'),
-    'laravelVersion' => Application::VERSION,
-    'phpVersion' => PHP_VERSION,
-  ]);
-});
+        Route::post('/cursos', 'store')->name('course.store');
+    });
 
 Route::get('/dashboard', function () {
-  return Inertia::render('Dashboard', [
-    'title' => 'Dashboard'
-  ]);
-})->middleware(['auth', 'verified'])->name('dashboard');
+    return Inertia::render('Dashboard', [
+        'title' => 'Dashboard'
+    ]);
+})->name('dashboard');
 
 Route::get('/account', function () {
-  return Inertia::render('Account', [
-    'title' => 'My Account'
-  ]);
-})->middleware(['auth', 'verified'])->name('account.index');
+    return Inertia::render('Account', [
+        'title' => 'My Account'
+    ]);
+})->name('account.index');
 
 Route::post('/notify', function () {
-  return back()->toast('This notification comes from the server side =)');
+    return back()->toast('This notification comes from the server side =)');
 });
