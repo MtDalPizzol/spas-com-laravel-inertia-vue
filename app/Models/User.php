@@ -50,4 +50,9 @@ class User extends Authenticatable
     {
         return "https://www.gravatar.com/avatar/" . md5(strtolower(trim($this->email))) . "?d=mp&s=" . '24';
     }
+
+    public function courses()
+    {
+        return $this->hasMany(Course::class, 'instructor_id');
+    }
 }
