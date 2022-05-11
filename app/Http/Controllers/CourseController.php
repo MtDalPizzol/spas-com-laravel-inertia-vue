@@ -3,13 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class CourseController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Course::class, 'course');
+    }
+
     public function index()
     {
         return Inertia::render('CourseIndex', [
