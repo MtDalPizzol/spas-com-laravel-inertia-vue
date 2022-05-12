@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CourseRequest;
 use App\Models\Course;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
@@ -31,13 +33,9 @@ class CourseController extends Controller
         ]);
     }
 
-    public function store()
+    public function store(CourseRequest $request)
     {
-        $validated = request()->validate([
-            'title' => ['required', 'string', 'min:3', 'max:255'],
-            'description' => ['required', 'string', 'min:3'],
-            'cover_file' => ['nullable', 'file', 'image', 'max:2048']
-        ]);
+        $validated = $request->validated();
 
         $course = Auth::user()->courses()->create($validated);
 
@@ -60,14 +58,9 @@ class CourseController extends Controller
         ]);
     }
 
-    public function update(Course $course)
+    public function update(CourseRequest $request, Course $course)
     {
-        $validated = request()->validate([
-            'title' => ['required', 'string', 'min:3', 'max:255'],
-            'description' => ['required', 'string', 'min:3'],
-            'cover' => ['nullable', 'string'],
-            'cover_file' => ['nullable', 'file', 'image', 'max:2048']
-        ]);
+        $validated = $request->validated();
 
         $course->update($validated);
 
