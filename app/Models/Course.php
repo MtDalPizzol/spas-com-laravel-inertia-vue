@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class Course extends Model
@@ -26,6 +27,45 @@ class Course extends Model
     ];
 
     protected $appends = ['url', 'cover_url'];
+
+    protected static function booted()
+    {
+        static::saving(function ($course) {
+            if (!$course->id) {
+                return static::onCreating($course);
+            }
+
+            return static::onUpdating($course);
+        });
+
+        static::deleting(function ($course) {
+            $course->deleteCoverFile();
+        });
+    }
+
+    protected static function onCreating($course)
+    {
+        $course->instructor_id = Auth::id();
+
+        $request = request();
+
+        if (!empty($request->cover_file)) {
+            $course->addCover($request->cover_file);
+        }
+    }
+
+    protected static function onUpdating($course)
+    {
+        $request = request();
+
+        if ($course->mustRemoveCover($request->cover_file, $request->cover)) {
+            $course->removeCover();
+        }
+
+        if (!empty($request->cover_file)) {
+            $course->addCover($request->cover_file);
+        }
+    }
 
     protected function coverUrl(): Attribute
     {
@@ -74,14 +114,14 @@ class Course extends Model
 
         $this->cover = null;
 
-        return $this->save();
+        return $this;
     }
 
     public function addCover(UploadedFile $file)
     {
         $this->cover = $file->store('courses', 'public');
 
-        return $this->save();
+        return $this;
     }
 
     public function instructor()

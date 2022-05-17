@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CourseRequest;
 use App\Models\Course;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
@@ -35,13 +34,7 @@ class CourseController extends Controller
 
     public function store(CourseRequest $request)
     {
-        $validated = $request->validated();
-
-        $course = Auth::user()->courses()->create($validated);
-
-        if (!empty($validated['cover_file'])) {
-            $course->addCover($validated['cover_file']);
-        }
+        $course = Course::create($request->validated());
 
         return redirect()
             ->route('course.index')
@@ -60,17 +53,7 @@ class CourseController extends Controller
 
     public function update(CourseRequest $request, Course $course)
     {
-        $validated = $request->validated();
-
-        $course->update($validated);
-
-        if ($course->mustRemoveCover($validated['cover_file'], $validated['cover'])) {
-            $course->removeCover();
-        }
-
-        if (!empty($validated['cover_file'])) {
-            $course->addCover($validated['cover_file']);
-        }
+        $course->update($request->validated());
 
         return redirect()
             ->route('course.index')
@@ -79,10 +62,8 @@ class CourseController extends Controller
 
     public function destroy(Course $course)
     {
-        $course->deleteCoverFile();
-
         $course->delete();
 
-        return back();
+        return back()->toast('Curso excluído');
     }
 }
