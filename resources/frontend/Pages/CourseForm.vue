@@ -1,4 +1,4 @@
-<template layout="Authenticated">
+<template>
   <Head :title="title" />
 
   <form
@@ -83,6 +83,15 @@
     </div>
   </form>
 </template>
+
+<script>
+import Authenticated from '@/Layouts/Authenticated.vue'
+import CourseLayout from '@/Layouts/CourseLayout.vue'
+
+export default {
+  layout: [Authenticated, CourseLayout]
+}
+</script>
 
 <script setup>
 const props = defineProps({

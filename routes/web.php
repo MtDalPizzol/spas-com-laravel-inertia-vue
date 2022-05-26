@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\SectionController;
 use App\Models\Course;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -16,6 +17,8 @@ use Inertia\Inertia;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('cursos/{course}/secoes', [SectionController::class, 'index'])->name('course.section.index');
 
 Route::resource('cursos', CourseController::class)->names('course')->parameters(['cursos' => 'course']);
 

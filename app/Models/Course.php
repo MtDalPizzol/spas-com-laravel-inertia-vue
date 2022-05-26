@@ -82,7 +82,12 @@ class Course extends Model
             get: fn () => [
                 'edit' => ($this->id)
                     ? route('course.edit', ['course' => $this->id])
-                    : null
+                    : null,
+                'section' => [
+                    'index' => ($this->id)
+                        ? route('course.section.index', ['course' => $this->id])
+                        : null,
+                ]
             ]
         );
     }

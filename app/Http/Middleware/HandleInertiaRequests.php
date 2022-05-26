@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Facades\Toast;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -38,7 +39,8 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
-            'toasts' => Toast::all()
+            'toasts' => Toast::all(),
+            'current_route_name' => Route::currentRouteName()
         ]);
     }
 }
