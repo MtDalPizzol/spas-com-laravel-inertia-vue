@@ -7,6 +7,9 @@
             ]
         }
     },
+    "vueCompilerOptions": {
+        "experimentalDisableTemplateSupport": true
+    },
     "exclude": [
         "node_modules",
         "public"
