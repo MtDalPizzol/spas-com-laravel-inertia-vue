@@ -87,6 +87,9 @@ class Course extends Model
                     'index' => ($this->id)
                         ? route('course.section.index', ['course' => $this->id])
                         : null,
+                    'create' => ($this->id)
+                        ? route('course.section.create', ['course' => $this->id])
+                        : null,
                 ]
             ]
         );

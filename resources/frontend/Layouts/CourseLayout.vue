@@ -16,7 +16,7 @@
       </Link>
       <Link :href="course.url.section.index">
         <q-tab
-          name="course.section.index"
+          name="course.section"
         >
           <i-mdi-format-list-text class="tw-text-xl tw-mr-1" />
           <span>Seções</span>
@@ -34,5 +34,14 @@ const $page = usePage()
 
 const course = computed(() => $page.props.value.course)
 
-const tab = computed(() => $page.props.value.current_route_name)
+const tab = computed(() => {
+  if ([
+    'course.section.index',
+    'course.section.create'
+  ].includes($page.props.value.current_route_name)) {
+    return 'course.section'
+  }
+
+  return $page.props.value.current_route_name
+})
 </script>
