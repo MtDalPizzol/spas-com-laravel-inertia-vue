@@ -16,4 +16,18 @@ class Section extends Model
     protected $attributes = [
         'title' => null
     ];
+
+    public static function booted()
+    {
+        static::saving(function ($section) {
+            if (!$section->id) {
+                static::onCreating($section);
+            }
+        });
+    }
+
+    public static function onCreating($section)
+    {
+        $section->course_id = request()->course->id;
+    }
 }

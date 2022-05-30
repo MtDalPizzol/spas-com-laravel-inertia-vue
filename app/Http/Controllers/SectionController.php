@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SectionRequest;
 use App\Models\Course;
 use App\Models\Section;
 use Illuminate\Http\Request;
@@ -28,5 +29,12 @@ class SectionController extends Controller
                 'course' => $course->id
             ])
         ]);
+    }
+
+    public function store(SectionRequest $request, Course $course)
+    {
+        Section::create($request->validated());
+
+        return redirect($course->url['section']['index']);
     }
 }
