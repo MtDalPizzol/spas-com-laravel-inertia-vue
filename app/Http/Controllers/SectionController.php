@@ -14,7 +14,8 @@ class SectionController extends Controller
     {
         return Inertia::render('SectionIndex', [
             'title' => 'Seções do curso #' . $course->id,
-            'course' => $course
+            'course' => $course,
+            'sections' => $course->sections
         ]);
     }
 

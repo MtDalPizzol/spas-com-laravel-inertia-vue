@@ -30,4 +30,9 @@ class Section extends Model
     {
         $section->course_id = request()->course->id;
     }
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class);
+    }
 }
