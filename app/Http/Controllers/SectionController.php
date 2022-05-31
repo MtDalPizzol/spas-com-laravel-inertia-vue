@@ -57,4 +57,11 @@ class SectionController extends Controller
         return redirect($course->url['section']['index'])
             ->toast('Seção atualizada');
     }
+
+    public function destroy(Request $request, Course $course, Section $section)
+    {
+        $section->delete();
+
+        return back()->toast('Seção excluída');
+    }
 }

@@ -51,6 +51,7 @@
               <q-btn
                 round
                 flat
+                @click.stop="deleteSection(section)"
               >
                 <i-mdi-trash />
               </q-btn>
@@ -98,6 +99,14 @@ const setState = () => {
     section.is_open = openAll.value
     return section
   })
+}
+
+const deleteSection = (section) => {
+  if (!window.confirm(`Deseja excluir a seção "${section.title}"`)) {
+    return
+  }
+
+  Inertia.delete(section.url.edit)
 }
 
 onMounted(() => {
