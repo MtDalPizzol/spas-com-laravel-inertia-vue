@@ -19,6 +19,8 @@ use Inertia\Inertia;
 */
 
 Route::get('cursos/{course}/secoes/criar', [SectionController::class, 'create'])->name('course.section.create');
+Route::get('cursos/{course}/secoes/{section}', [SectionController::class, 'edit'])->name('course.section.edit');
+Route::put('cursos/{course}/secoes/{section}', [SectionController::class, 'update'])->name('course.section.update');
 Route::post('cursos/{course}/secoes', [SectionController::class, 'store'])->name('course.section.store');
 Route::get('cursos/{course}/secoes', [SectionController::class, 'index'])->name('course.section.index');
 

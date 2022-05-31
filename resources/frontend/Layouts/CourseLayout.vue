@@ -37,7 +37,8 @@ const course = computed(() => $page.props.value.course)
 const tab = computed(() => {
   if ([
     'course.section.index',
-    'course.section.create'
+    'course.section.create',
+    'course.section.edit'
   ].includes($page.props.value.current_route_name)) {
     return 'course.section'
   }

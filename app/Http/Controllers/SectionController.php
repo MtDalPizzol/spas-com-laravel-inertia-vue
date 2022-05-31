@@ -38,4 +38,23 @@ class SectionController extends Controller
 
         return redirect($course->url['section']['index']);
     }
+
+    public function edit(Request $request, Course $course, Section $section)
+    {
+        return Inertia::render('SectionForm', [
+            'title' => 'Editando seção #' . $section->id,
+            'course' => $course,
+            'section' => $section,
+            'method' => 'put',
+            'action' => $section->url['edit']
+        ]);
+    }
+
+    public function update(SectionRequest $request, Course $course, Section $section)
+    {
+        $section->update($request->validated());
+
+        return redirect($course->url['section']['index'])
+            ->toast('Seção atualizada');
+    }
 }

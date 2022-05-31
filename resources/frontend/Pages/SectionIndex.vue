@@ -40,12 +40,14 @@
           </q-item-section>
           <q-item-section side>
             <div class="row items-center">
-              <q-btn
-                round
-                flat
-              >
-                <i-mdi-pencil />
-              </q-btn>
+              <Link :href="section.url.edit">
+                <q-btn
+                  round
+                  flat
+                >
+                  <i-mdi-pencil />
+                </q-btn>
+              </Link>
               <q-btn
                 round
                 flat

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,6 +16,10 @@ class Section extends Model
 
     protected $attributes = [
         'title' => null
+    ];
+
+    protected $appends = [
+        'url'
     ];
 
     public static function booted()
@@ -34,5 +39,19 @@ class Section extends Model
     public function course()
     {
         return $this->belongsTo(Course::class);
+    }
+
+    public function url(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => [
+                'edit' => $this->id
+                    ? route('course.section.edit', [
+                        'course' => $this->course->id,
+                        'section' => $this->id
+                    ])
+                    : null
+            ]
+        );
     }
 }
