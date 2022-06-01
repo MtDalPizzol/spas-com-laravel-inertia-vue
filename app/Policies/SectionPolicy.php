@@ -21,12 +21,22 @@ class SectionPolicy
         //
     }
 
+    public function viewAny(User $user, Course $course)
+    {
+        return $user->can('update', $course);
+    }
+
     public function create(User $user, Course $course)
     {
         return $user->can('update', $course);
     }
 
     public function update(User $user, Section $section)
+    {
+        return $user->can('update', $section->course);
+    }
+
+    public function delete(User $user, Section $section)
     {
         return $user->can('update', $section->course);
     }
