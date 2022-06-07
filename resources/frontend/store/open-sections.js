@@ -1,12 +1,13 @@
 import { defineStore } from 'pinia'
+import { useStorage } from '@vueuse/core'
 import { merge, mapValues } from 'lodash'
 
 export const useOpenSectionsStore = defineStore('open-sections', {
   state: () => {
-    return {
+    return useStorage('open-sections', {
       openAll: true,
       openSections: {}
-    }
+    })
   },
   actions: {
     setOpenSections (sections) {
