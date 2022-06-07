@@ -11,6 +11,7 @@ import 'quasar/dist/quasar.css'
 
 import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/inertia-vue3'
+import { createPinia } from 'pinia'
 import { Quasar } from 'quasar'
 import quasarIconSet from 'quasar/icon-set/svg-mdi-v6'
 import axios from 'axios'
@@ -37,6 +38,7 @@ createInertiaApp({
   },
   setup ({ el, app, props, plugin }) {
     return createApp({ render: () => h(app, props) })
+      .use(createPinia())
       .use(plugin)
       .use(Notifications)
       .use(Quasar, {

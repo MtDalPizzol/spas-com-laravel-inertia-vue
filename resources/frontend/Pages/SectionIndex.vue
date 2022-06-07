@@ -73,7 +73,8 @@
 <script>
 import Authenticated from '@/Layouts/Authenticated.vue'
 import CourseLayout from '@/Layouts/CourseLayout.vue'
-import { merge, mapValues } from 'lodash'
+import { storeToRefs } from 'pinia'
+import { useOpenSectionsStore } from '@/store/open-sections'
 
 export default {
   layout: [Authenticated, CourseLayout]
@@ -87,25 +88,9 @@ const props = defineProps({
   sections: Array
 })
 
-const openAll = ref(true)
-
-const toggleAll = () => {
-  openAll.value = !openAll.value
-
-  openSections.value = mapValues(openSections.value, o => openAll.value)
-}
-
-const openSections = ref({})
-
-const setOpenSections = () => {
-  const incomingSections = {}
-
-  props.sections.forEach((section) => {
-    incomingSections[section.id] = openAll.value
-  })
-
-  openSections.value = merge(incomingSections, openSections.value)
-}
+const store = useOpenSectionsStore()
+const { openSections, openAll } = storeToRefs(store)
+const { toggleAll, setOpenSections } = store
 
 const deleteSection = (section) => {
   if (!window.confirm(`Deseja excluir a seção "${section.title}"`)) {
@@ -113,9 +98,9 @@ const deleteSection = (section) => {
   }
 
   Inertia.delete(section.url.edit, {
-    onSuccess: setOpenSections
+    onSuccess: () => setOpenSections(props.sections)
   })
 }
 
-onBeforeMount(setOpenSections)
+onBeforeMount(() => setOpenSections(props.sections))
 </script>
