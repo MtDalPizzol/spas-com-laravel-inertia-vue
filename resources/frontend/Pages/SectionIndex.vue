@@ -31,7 +31,7 @@
       class="tw-border tw-rounded-md"
     >
       <q-expansion-item
-        v-model="section.is_open"
+        v-model="openSections[section.id]"
         header-class="text-primary"
       >
         <template #header>
@@ -73,6 +73,7 @@
 <script>
 import Authenticated from '@/Layouts/Authenticated.vue'
 import CourseLayout from '@/Layouts/CourseLayout.vue'
+import { merge, mapValues } from 'lodash'
 
 export default {
   layout: [Authenticated, CourseLayout]
@@ -91,14 +92,19 @@ const openAll = ref(true)
 const toggleAll = () => {
   openAll.value = !openAll.value
 
-  setState()
+  openSections.value = mapValues(openSections.value, o => openAll.value)
 }
 
-const setState = () => {
-  props.sections.map((section) => {
-    section.is_open = openAll.value
-    return section
+const openSections = ref({})
+
+const setOpenSections = () => {
+  const incomingSections = {}
+
+  props.sections.forEach((section) => {
+    incomingSections[section.id] = openAll.value
   })
+
+  openSections.value = merge(incomingSections, openSections.value)
 }
 
 const deleteSection = (section) => {
@@ -106,10 +112,10 @@ const deleteSection = (section) => {
     return
   }
 
-  Inertia.delete(section.url.edit)
+  Inertia.delete(section.url.edit, {
+    onSuccess: setOpenSections
+  })
 }
 
-onMounted(() => {
-  setState()
-})
+onBeforeMount(setOpenSections)
 </script>
