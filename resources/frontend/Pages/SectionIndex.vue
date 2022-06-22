@@ -97,7 +97,7 @@ const deleteSection = (section) => {
     return
   }
 
-  Inertia.delete(section.url.edit, {
+  Inertia.delete(section.url.destroy, {
     onSuccess: () => setOpenSections(props.sections)
   })
 }

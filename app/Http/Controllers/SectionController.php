@@ -52,7 +52,7 @@ class SectionController extends Controller
             'course' => $course,
             'section' => $section,
             'method' => 'put',
-            'action' => $section->url['edit']
+            'action' => $section->url['update']
         ]);
     }
 

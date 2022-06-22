@@ -18,14 +18,18 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('cursos/{course}/secoes/criar', [SectionController::class, 'create'])->name('course.section.create');
-Route::get('cursos/{course}/secoes/{section}', [SectionController::class, 'edit'])->name('course.section.edit');
-Route::put('cursos/{course}/secoes/{section}', [SectionController::class, 'update'])->name('course.section.update');
-Route::delete('cursos/{course}/secoes/{section}', [SectionController::class, 'destroy'])->name('course.section.destroy');
-Route::post('cursos/{course}/secoes', [SectionController::class, 'store'])->name('course.section.store');
-Route::get('cursos/{course}/secoes', [SectionController::class, 'index'])->name('course.section.index');
+Route::resource('cursos.secoes', SectionController::class)
+    ->names('course.section')
+    ->parameters([
+        'cursos' => 'course',
+        'secoes' => 'section'
+    ]);
 
-Route::resource('cursos', CourseController::class)->names('course')->parameters(['cursos' => 'course']);
+Route::resource('cursos', CourseController::class)
+    ->names('course')
+    ->parameters([
+        'cursos' => 'course'
+    ]);
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard', [

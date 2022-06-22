@@ -50,6 +50,18 @@ class Section extends Model
                         'course' => $this->course->id,
                         'section' => $this->id
                     ])
+                    : null,
+                'update' => $this->id
+                    ? route('course.section.update', [
+                        'course' => $this->course->id,
+                        'section' => $this->id
+                    ])
+                    : null,
+                'destroy' => $this->id
+                    ? route('course.section.destroy', [
+                        'course' => $this->course->id,
+                        'section' => $this->id
+                    ])
                     : null
             ]
         );
